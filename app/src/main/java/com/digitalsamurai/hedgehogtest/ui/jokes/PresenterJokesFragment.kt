@@ -14,11 +14,13 @@ class PresenterJokesFragment : MvpPresenter<InterfaceJokes>() {
     private lateinit var adapter : RecyclerAdapterJokes
     private var dataJokes : ArrayList<Joke> = ArrayList()
 
+        //инициализация адаптера и данных, для взаимодействия без лишнего обращения к recycler
     fun initializeAdapter(context : Context, recycler : RecyclerView){
         adapter = RecyclerAdapterJokes(dataJokes,context)
         recycler.adapter = adapter
     }
 
+    //обновляем шутки
     fun reloadJokes(count: Int) {
         viewState.showLoading()
         API_ICNDB.create().getRandomJokes(count).enqueue(object : retrofit2.Callback<DataJokes> {

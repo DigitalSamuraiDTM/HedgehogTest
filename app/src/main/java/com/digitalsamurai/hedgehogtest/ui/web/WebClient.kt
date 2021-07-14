@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 
 class WebClient : WebViewClient() {
+    //веб клиент для обработки дальнейшей навигации в вебвью
     @TargetApi(Build.VERSION_CODES.N)
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
         view.loadUrl(request.url.toString())

@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.act_main_navhost)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_jokes, R.id.navigation_web
@@ -31,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    //обработка нажатия назад когда открыт фрагмент веб
     override fun onBackPressed() {
         val host = supportFragmentManager.findFragmentById(R.id.act_main_navhost)
         val fr = host?.childFragmentManager?.getFragments()?.get(0) as? WebFragment

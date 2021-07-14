@@ -22,6 +22,7 @@ class WebFragment : MvpAppCompatFragment() , InterfaceWeb {
     lateinit var presenterProvider : Provider<PresenterWebFragment>
     val presenter by moxyPresenter {presenterProvider.get()};
 
+    //в onCreate производим инъекцию и насыщаем поля
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationM.getAppComponent().injectPresenterWeb(this)
         super.onCreate(savedInstanceState)
@@ -32,25 +33,28 @@ class WebFragment : MvpAppCompatFragment() , InterfaceWeb {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_web, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         webView = view.findViewById(R.id.fr_web_webview)
-
         super.onViewCreated(view, savedInstanceState)
     }
 
+    //на паузу надо запомнить наше место
     override fun onPause() {
         presenter.saveState(webView)
         super.onPause()
     }
 
+    //инициализация в onResume потому что только тогда презентер привязывается к фрагменту
     override fun onResume() {
         presenter.initializeWebView(webView);
         super.onResume()
     }
+
+    //функция, которая вызывается когда нажимаем back (call из активити)
     fun goBackWebView(){
         if (webView.canGoBack()){
             webView.goBack()

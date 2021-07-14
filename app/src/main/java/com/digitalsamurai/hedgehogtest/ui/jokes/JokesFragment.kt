@@ -24,17 +24,19 @@ class JokesFragment : MvpAppCompatFragment(), InterfaceJokes {
     private lateinit var layoutData : ConstraintLayout
     private lateinit var layoutLoading : ConstraintLayout
 
-    override fun onResume() {
-        presenter.initializeAdapter(requireActivity().applicationContext, recyclerJokes)
-        super.onResume()
-    }
-
     @Inject
     lateinit var presenterProvider : Provider<PresenterJokesFragment>
+
     val presenter by moxyPresenter {presenterProvider.get()};
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationM.getAppComponent().injectPresenterJokes(this)
         super.onCreate(savedInstanceState)
+    }
+    //инициализация адаптера в onResume потому что только тогда презентер аттачед к фрагменту
+    override fun onResume() {
+        presenter.initializeAdapter(requireActivity().applicationContext, recyclerJokes)
+        super.onResume()
     }
 
     override fun onCreateView(
@@ -68,7 +70,7 @@ class JokesFragment : MvpAppCompatFragment(), InterfaceJokes {
         layoutData.visibility = View.VISIBLE
         layoutLoading.visibility = View.GONE
     }
-
+    //ошибка, если не будет интернета или запрос не будет успешен
     override fun showError(error : Int) {
         layoutData.visibility = View.GONE
         layoutLoading.visibility = View.VISIBLE
